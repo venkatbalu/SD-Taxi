@@ -1,11 +1,10 @@
 document
   .getElementById("formIdDropTaxi")
   .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
     var showRadioOne = document.getElementById("inlineRadioOneWay");
     var showRadioRound = document.getElementById("inlineRadioRound");
 
-    console.log("called", showRadioOne.checked, showRadioRound.checked);
     // // if (this.checkValidity()) {
     // if (true) {
     //   var formData = new FormData(this);
@@ -16,7 +15,6 @@ document
     //     jsonObject[key] = value;
     //   });
     //   var jsonData = JSON.stringify(jsonObject);
-    //   console.log(jsonData);
     // } else {
     //   // If form is not valid, focus on the first invalid input
     //   this.querySelector(":invalid").focus();
@@ -116,9 +114,6 @@ document
       ).value;
 
       var time12hr = convertTo12HrFormat(pickupTimeRoundWay);
-
-      // Get the value of the pickup location input field
-      // var pickupLocation = document.getElementById("pickupLocation").value;
 
       // Construct the WhatsApp message with the pickup location value
       var oneWayMessage =
@@ -242,13 +237,11 @@ function toggleElement() {
   if (showRadioOne.checked) {
     elementToHideOne.style.display = "block";
     if (elementToHideRound) {
-      console.log("one");
       elementToHideRound.parentNode.removeChild(elementToHideRound);
     }
   }
 
   if (showRadioRound.checked) {
-    console.log("round");
     elementToHideRound.style.display = "block";
     if (elementToHideOne) {
       elementToHideOne.parentNode.removeChild(elementToHideOne);
