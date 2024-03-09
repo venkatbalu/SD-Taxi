@@ -1,3 +1,16 @@
+window.onload = function () {
+  var today = new Date().toISOString().split("T")[0];
+  document
+    .getElementById("floatingInputPickupDateOne")
+    .setAttribute("min", today);
+  document
+    .getElementById("floatingInputRoundPickupDate")
+    .setAttribute("min", today);
+  document
+    .getElementById("floatingInputRoundReturnDate")
+    .setAttribute("min", today);
+};
+
 document
   .getElementById("formIdDropTaxi")
   .addEventListener("submit", function (event) {
