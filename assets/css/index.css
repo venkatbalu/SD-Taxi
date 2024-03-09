@@ -1,0 +1,338 @@
+body {
+  background-color: #fff;
+  margin: 0;
+  /* padding: 0; */
+}
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p,
+ul,
+table {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-brand .navbar-brand-item {
+  height: 34px;
+}
+.navbar-toggler {
+  border: 0 !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler .navbar-toggler-animation {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-image: none;
+  color: #0b0a12;
+  position: relative;
+  height: 22px;
+  width: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-taxi {
+  box-shadow: rgba(83, 88, 93, 0.4) 0px 10px 30px;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 100%;
+  background: var(--bs-body-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 60;
+}
+
+.navbar-taxi .nav-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0px 43px;
+}
+
+@media (min-width: 1200px) {
+  .position-lg-middle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    margin-left: 4rem !important;
+  }
+  .navbar-brand {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .navbar-taxi {
+    position: relative;
+    box-shadow: none;
+    border-top: none;
+  }
+  .navbar-taxi .nav-item {
+    border-bottom: none;
+    padding: 0px 10px;
+  }
+  .nav-link {
+    color: #000000;
+    font-weight: 500;
+  }
+
+  #cab-round-way-trip {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 238px;
+  }
+
+  #bookingHomeID .card-header {
+    background-color: rgb(255 255 255 / 0%) !important;
+  }
+
+  .contactDesktopView ul {
+    list-style-type: none;
+  }
+  .contactDesktopView .text-body-secondary {
+    color: #000000 !important;
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .position-lg-middle {
+    position: relative;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0);
+    transform: translate(0);
+    margin: auto;
+    margin-top: -4rem;
+  }
+  .contactDesktopView {
+    display: none;
+  }
+}
+
+.contactDesktopView ul {
+  list-style-type: none;
+}
+
+.contactDesktopView .text-body-secondary {
+  color: #000000 !important;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (min-width: 1200px) {
+  .home-page-bg {
+    margin-top: 0;
+  }
+}
+@media (max-width: 767.98px) {
+  section {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+}
+.cab-icon-types {
+  width: 7rem;
+  height: 7rem;
+  line-height: 7rem;
+  text-align: center;
+  font-size: 2.5rem;
+}
+.w-90px {
+  width: 90px !important;
+}
+.cab-icon-types img {
+  max-width: 100%;
+  height: auto;
+}
+.card-title a {
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  color: #0b0a12;
+  font-family: "Poppins", sans-serif;
+}
+.awesome-header {
+  font-size: calc(1.425rem + 2.1vw);
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #0b0a12;
+}
+.vehicles-types .shadow {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  font-family: "Poppins", sans-serif;
+}
+
+/* why choose us */
+.icon-lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  line-height: 3.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.bi-lightning-fill::before {
+  content: "\f46e";
+}
+
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.text-body-secondary {
+  opacity: 1;
+  color: #c5c5e0 !important;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+
+.copyright-styl {
+  padding: 5px;
+  color: #ffffffad;
+  text-align: center;
+  /* font-style: oblique; */
+  font-size: 13px;
+  padding-bottom: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Welcome banner */
+.fill-primary {
+  fill: #5143d9 !important;
+}
+
+.msn-9 {
+  margin-left: 11rem !important;
+}
+.fill-warning {
+  fill: #f7c32e !important;
+}
+.mbn-n5 {
+  margin-bottom: -3.5rem !important;
+}
+.mbnn-n6 {
+  margin-right: 3.5rem !important;
+}
+.fill-info {
+  fill: #17a2b8 !important;
+}
+
+/* Our services page */
+/* .our-best-service-wrapper {
+      } */
+
+.fill-airporttrip {
+  fill: #17b84896 !important;
+}
+
+.single-footer h5 {
+  font-size: 17px;
+  color: #eee;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  -webkit-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+}
+.spinner-grow {
+  --bs-spinner-animation-speed: 1.8s;
+}
+.book-now-btn {
+  background-color: #ffcd05;
+  color: #000;
+  font-weight: 600;
+  border: none;
+}
+.spinner-wrapper {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  bottom: 51px;
+  margin-left: 32px;
+  background-color: #ffcd0538;
+}
+
+.phone {
+  position: fixed;
+  z-index: 50;
+  bottom: 37px;
+  right: 12px;
+}
+.whatsapp {
+  position: fixed;
+  z-index: 50;
+  bottom: 14px;
+  left: -5px;
+}
+
+.table-scroll {
+  overflow: hidden;
+  overflow-x: scroll;
+  /* width: calc(100vw - 53px); */
+  max-width: max-content;
+}
+h1 > a:hover,
+h2 > a:hover,
+h3 > a:hover,
+h4 > a:hover,
+h5 > a:hover,
+h6 > a:hover,
+.h1 > a:hover,
+.h2 > a:hover,
+.h3 > a:hover,
+.h4 > a:hover,
+.h5 > a:hover,
+.h6 > a:hover {
+  color: #5143d9;
+}
+.text-primary-hover a:hover {
+  color: #5143d9 !important;
+}
+a {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.copyright-styl span:hover {
+  color: #5143d9 !important;
+  cursor: pointer;
+}
