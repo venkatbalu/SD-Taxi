@@ -196,7 +196,7 @@ document
 
     // Construct the WhatsApp link with the encoded message
     var whatsappLink =
-      "whatsapp://send?phone=9363641272&text=" + encodedMessage;
+      "whatsapp://send?phone=9894950767&text=" + encodedMessage;
 
     if (
       (showRadioOne.checked && validation() === true) ||
