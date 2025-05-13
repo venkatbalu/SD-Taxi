@@ -68,6 +68,23 @@
       <!-- <div class="alert alert-light" role="alert">
         A simple light alert—check it out!
       </div> -->
+
+      <!-- Confirmation Popup -->
+      <div id="confirmModal" class="modal">
+        <div class="modal-content">
+          <p>Are you sure you want to confirm this booking?</p>
+          <button onclick="confirmBooking()" class="confirm">Confirm</button>
+          <button onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Success Popup -->
+      <div id="successModal" class="modal">
+        <div class="modal-content">
+          <p>✅ Your booking has been successfully submitted!</p>
+          <button onclick="closeModal()" class="confirm">OK</button>
+        </div>
+      </div>
       <!-- Navigation Bar -->
       <div id="headerContent"></div>
       <header class="navbar-light header-sticky">
@@ -1657,6 +1674,10 @@
       //   // minTime: "16:00",
       //   // maxTime: "22:30",
       // });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("uHA-oX4C3xWeDUD6O");
     </script>
   </body>
 </html>

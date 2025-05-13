@@ -336,3 +336,34 @@ a {
   color: #5143d9 !important;
   cursor: pointer;
 }
+
+/* Simple modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 15% auto;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.modal-content button {
+  margin: 10px;
+}
+
+.confirm {
+  border: 1px solid blue;
+  background: #5143d9;
+  color: #fff;
+  border-radius: 4px;
+}
