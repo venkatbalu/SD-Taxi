@@ -345,6 +345,23 @@ function sendEmail(
   returndate
 ) {
   const tim = new Date().toLocaleString();
+  const confirmBtn = document.getElementById("confirmBtn");
+  const loader = document.getElementById("loader");
+
+  // Show loader and disable button
+  loader.style.display = "inline-block";
+  confirmBtn.disabled = true;
+
+  // testing purpose****
+  // setTimeout(() => {
+  //   loader.style.display = "none";
+  //   confirmBtn.disabled = false;
+
+  //   // Show success popup
+  //   document.getElementById("confirmModal").style.display = "none";
+  //   document.getElementById("successModal").style.display = "block";
+  // }, 2000000);
+  // return;
   emailjs
     .send("service_7svzxmn", "template_t2xsuot", {
       // name: "Mathan Doe",
@@ -364,6 +381,9 @@ function sendEmail(
         // alert("Email sent successfully!");
         document.getElementById("formIdDropTaxi").reset();
 
+        loader.style.display = "none";
+        confirmBtn.disabled = false;
+
         // Show success popup
         document.getElementById("confirmModal").style.display = "none";
         document.getElementById("successModal").style.display = "block";
@@ -371,6 +391,8 @@ function sendEmail(
       function (error) {
         console.error("Failed to send email:", error);
         alert("❌ Failed to send booking. Please try again.\n" + error.text);
+        loader.style.display = "none";
+        confirmBtn.disabled = false;
       }
     );
 }
