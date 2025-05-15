@@ -360,7 +360,7 @@ function sendEmail(
   //   // Show success popup
   //   document.getElementById("confirmModal").style.display = "none";
   //   document.getElementById("successModal").style.display = "block";
-  // }, 2000000);
+  // }, 100);
   // return;
   emailjs
     .send("service_7svzxmn", "template_t2xsuot", {

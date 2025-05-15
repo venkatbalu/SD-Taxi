@@ -60,6 +60,7 @@
 
       gtag("config", "AW-16508128936");
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtACY___UCvUtNpXQy-EHcJ79SE6AOBiQ&libraries=places"></script>
   </head>
   <body>
     <!-- Page content -->
@@ -84,6 +85,7 @@
       <!-- Success Popup -->
       <div id="successModal" class="modal">
         <div class="modal-content">
+          <image src="assets/icons/Successful.gif" alt="successfully"></image>
           <p>✅ Your booking has been successfully submitted!</p>
           <button onclick="closeModal()" class="confirm">OK</button>
         </div>
@@ -280,12 +282,11 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputPickupOne"
                                 name="floatingInputPickupOne"
                                 placeholder="select location"
                               />
-                              <!-- onkeypress="func_v(this.value)" -->
                               <label for="floatingInputPickupOne"
                                 >Pickup location</label
                               >
@@ -296,7 +297,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputDropOne"
                                 name="floatingInputDropOne"
                                 placeholder="select location"
@@ -379,7 +380,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputRoundPickup"
                                 name="floatingInputRoundPickup"
                                 placeholder="select location"
@@ -394,7 +395,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputRoundDrop"
                                 name="floatingInputRoundDrop"
                                 placeholder="select location"
@@ -1076,7 +1077,7 @@
                       </h6>
                       <ul class="nav flex-column text-primary-hover">
                         <li class="nav-item">04 Passengers</li>
-                        <li class="nav-item">Km Charges: 13/km</li>
+                        <li class="nav-item">Km Charges: 14/km</li>
                         <li class="nav-item">Driver beta 400rs</li>
                         <li class="nav-item">Including toll-if</li>
                       </ul>
@@ -1681,6 +1682,28 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
       emailjs.init("uHA-oX4C3xWeDUD6O");
+    </script>
+    <script>
+      function initAllAutocompletes() {
+        const locationInputs = document.querySelectorAll(".location-field");
+        locationInputs.forEach((input) => {
+          const autocomplete = new google.maps.places.Autocomplete(input);
+
+          // Optional: restrict results
+          // autocomplete.setTypes(['geocode']); // or ['(cities)'] for cities only
+          autocomplete.setComponentRestrictions({ country: ["in"] });
+
+          autocomplete.addListener("place_changed", function () {
+            const place = autocomplete.getPlace();
+            console.log("Selected:", place.formatted_address);
+            // Access lat/lng if needed:
+            // const lat = place.geometry.location.lat();
+            // const lng = place.geometry.location.lng();
+          });
+        });
+      }
+
+      window.addEventListener("load", initAllAutocompletes);
     </script>
   </body>
 </html>
