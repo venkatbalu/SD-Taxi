@@ -336,3 +336,57 @@ a {
   color: #5143d9 !important;
   cursor: pointer;
 }
+
+/* Simple modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 15% auto;
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.modal-content button {
+  margin: 10px;
+}
+
+.confirm {
+  border: 1px solid blue;
+  background: #5143d9;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #333;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+  margin-bottom: 4px;
+}
+
+.cab-types {
+  margin-left: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
