@@ -381,6 +381,10 @@ a {
   margin-bottom: 4px;
 }
 
+.cab-types {
+  margin-left: 20px;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

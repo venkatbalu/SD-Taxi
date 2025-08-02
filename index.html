@@ -60,7 +60,7 @@
 
       gtag("config", "AW-16508128936");
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtACY___UCvUtNpXQy-EHcJ79SE6AOBiQ&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLIOjzxt_QECxD6B0Cl154G5wXXQBW0_g&libraries=places"></script>
   </head>
   <body>
     <!-- Page content -->
@@ -74,6 +74,43 @@
       <div id="confirmModal" class="modal">
         <div class="modal-content">
           <p>Are you sure you want to confirm this booking?</p>
+          <p id="distanceId"></p>
+          <ul
+            style="
+              text-align: left;
+              list-style-type: disclosure-closed;
+              font-size: 14px;
+              margin-left: 25px;
+            "
+          >
+            <li>
+              Distance <span>(km)</span>:
+              <span
+                id="distanceVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Duration:
+              <span
+                id="durationVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Total Amount:
+              <span
+                id="totalVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Driver Beta <span>(per day)</span>:
+              <span id="driverBeta" style="color: #119911; font-weight: 600"
+                >400</span
+              >
+            </li>
+          </ul>
           <button onclick="confirmBooking()" class="confirm" id="confirmBtn">
             Confirm
             <span id="loader" class="spinner" style="display: none"></span>
@@ -238,6 +275,63 @@
                           >Round Trip</label
                         >
                       </div>
+                    </div>
+                    <div
+                      style="
+                        font-size: 13px;
+                        margin-top: 16px;
+                        font-weight: 500;
+                      "
+                    >
+                      <input
+                        checked
+                        class="form-check-input"
+                        type="radio"
+                        name="cabTypeName"
+                        id="cabTypeSedan"
+                        calss="vehicletype"
+                        value="14"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeSedan"
+                        >Sedan</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        calss="vehicletype"
+                        id="cabTypeSuv"
+                        value="19"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeSuv"
+                        >SUV</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        id="InnovaCabType"
+                        calss="vehicletype"
+                        value="20"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="InnovaCabType"
+                        >Innova</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        id="cabTypeMaxi"
+                        calss="vehicletype"
+                        value="20"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeMaxi"
+                        >Maxi Cab</label
+                      >
                     </div>
 
                     <div class="tab-content mt-3" id="cabOneTabContent">
@@ -886,7 +980,7 @@
               <h2 class="awesome-header">Best Outstation Tariff</h2>
             </div>
           </div>
-          <div class="row g-4">
+          <div class="row g-4" id="oneWayTariff">
             <div class="col-sm-6 col-lg-6">
               <div class="card card-body shadow h-100">
                 <h5 class="text-center mb-3">One way fare</h5>
@@ -1478,43 +1572,43 @@
             <h5 class="text-white">Top Links</h5>
             <ul class="list-inline text-primary-hover lh-lg">
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >TamilNadu All Cities - Kerala All cities</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Kerala All cities- TamilNadu All Cities</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - kanchipuram</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Bangalore - Kochi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Bangalore - Kochi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Channai - Tiruchirappalli</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Madurai`</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Madurai`</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Virudhunagar</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Tirunelveli</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Kanniyakumari</a
                 >
               </li>
@@ -1524,47 +1618,47 @@
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Nagercoil</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Nagercoil</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Thanjavur</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Thanjavur</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Sivakasi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Sivakasi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Sankarankovil</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Tenkasi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Tenkasi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Ambasamudram</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Kerala</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Kerala</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Kochi - Trivandrum</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Kochi - Trivandrum</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Trivandrum - Chennai</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Trivandrum - Chennai</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Trivandrum Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Trivandrum Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Madurai Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Madurai Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Tiruchirappalli Airport</a
                 >
               </li>
@@ -1683,7 +1777,7 @@
     <script>
       emailjs.init("uHA-oX4C3xWeDUD6O");
     </script>
-    <script>
+    <!-- <script>
       function initAllAutocompletes() {
         const locationInputs = document.querySelectorAll(".location-field");
         locationInputs.forEach((input) => {
@@ -1704,6 +1798,6 @@
       }
 
       window.addEventListener("load", initAllAutocompletes);
-    </script>
+    </script> -->
   </body>
 </html>
