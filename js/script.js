@@ -1,3 +1,6 @@
+let pickupPlace = null;
+let dropPlace = null;
+
 window.onload = function () {
   var today = new Date().toISOString().split("T")[0];
   document
@@ -9,7 +12,93 @@ window.onload = function () {
   document
     .getElementById("floatingInputRoundReturnDate")
     .setAttribute("min", today);
+
+  const locationInputs = document.querySelectorAll(".location-field");
+  locationInputs.forEach((input) => {
+    // console.log(input.id);
+    const autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.setComponentRestrictions({ country: ["in"] });
+
+    autocomplete.addListener("place_changed", function () {
+      const place = autocomplete.getPlace();
+
+      if (input.id === "floatingInputPickupOne") pickupPlace = place;
+      else if (input.id === "floatingInputRoundPickup") pickupPlace = place;
+      else if (input.id === "floatingInputDropOne") dropPlace = place;
+      else if (input.id === "floatingInputRoundDrop") dropPlace = place;
+
+      // console.log(`Selected [${input.id}]:`, place.formatted_address);
+    });
+  });
 };
+
+function calculateDistance() {
+  // console.log(pickupPlace, dropPlace);
+  const showRadioOne = document.getElementById("inlineRadioOneWay");
+  const showRadioRound = document.getElementById("inlineRadioRound");
+  const selectedGenderRadio = document.querySelector(
+    'input[name="cabTypeName"]:checked'
+  );
+
+  if (!pickupPlace || !dropPlace) {
+    alert("Please select both pickup and drop locations.");
+    return;
+  }
+
+  const service = new google.maps.DistanceMatrixService();
+
+  service.getDistanceMatrix(
+    {
+      origins: [pickupPlace.formatted_address],
+      destinations: [dropPlace.formatted_address],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+    },
+    (response, status) => {
+      if (status === "OK") {
+        const result = response.rows[0].elements[0];
+
+        if (result.status === "OK") {
+          let distanceKm = result.distance.value / 1000; // meters → KM
+          let duration = result.duration.text;
+          if (selectedGenderRadio)
+            var perKmRate = Number(selectedGenderRadio.value);
+
+          let totalFare = distanceKm * perKmRate;
+
+          if (showRadioRound.checked) {
+            distanceKm = distanceKm * 2;
+            totalFare = distanceKm * perKmRate;
+          }
+
+          if (showRadioOne.checked && distanceKm <= 130)
+            totalFare = perKmRate * 130;
+
+          if (showRadioRound.checked && distanceKm <= 250)
+            totalFare = perKmRate * 250;
+
+          // document.getElementById(
+          //   "distanceId"
+          // ).innerText = `Distance: ${distanceKm.toFixed(
+          //   2
+          // )} km, Duration: ${duration}`;
+          document.getElementById("distanceVal").innerText =
+            distanceKm.toFixed(2);
+          document.getElementById("durationVal").innerText = duration;
+          document.getElementById("totalVal").innerText = totalFare.toFixed(2);
+          // document.getElementById("driverBeta").innerText;
+          // Example: fare calculation
+
+          console.log(`Total Fare: $${totalFare.toFixed(2)}`);
+        } else {
+          alert("Could not get distance info. Try again.");
+        }
+      } else {
+        alert("Distance API failed due to: " + status);
+      }
+    }
+  );
+}
 
 document
   .getElementById("formIdDropTaxi")
@@ -35,66 +124,65 @@ document
 
     if (showRadioOne.checked) {
       // Get values from form fields
-      var name = document.getElementById("floatingInputName").value;
-      var contact = document.getElementById("floatingInputContact").value;
-      var pickupOneWay = document.getElementById(
+      var nameone = document.getElementById("floatingInputName").value;
+      var contactone = document.getElementById("floatingInputContact").value;
+      var pickupOneWayone = document.getElementById(
         "floatingInputPickupOne"
       ).value;
-      var dropOneWay = document.getElementById("floatingInputDropOne").value;
-      var pickupDateOneWay = document.getElementById(
+      var dropOneWayone = document.getElementById("floatingInputDropOne").value;
+      var pickupDateOneWayone = document.getElementById(
         "floatingInputPickupDateOne"
       ).value;
 
-      var pickupTimeOneWay = document.getElementById(
+      var pickupTimeOneWayone = document.getElementById(
         "floatingInputPickupTimeOne"
       ).value;
 
-      var time12hr = convertTo12HrFormat(pickupTimeOneWay);
-
+      var time12hrone = convertTo12HrFormat(pickupTimeOneWayone);
       // Get the value of the pickup location input field
       // var pickupLocation = document.getElementById("pickupLocation").value;
 
       // Construct the WhatsApp message with the pickup location value
       var oneWayMessage =
         "Hello Venkat 👋,\nI've just 🚖 booked a cab with Shreedrop taxi service.\nName - " +
-        name +
+        nameone +
         "\nContact Number - " +
-        contact +
+        contactone +
         "\nPickup location 📍 - " +
-        pickupOneWay +
+        pickupOneWayone +
         "\nDrop location 📍 - " +
-        dropOneWay +
+        dropOneWayone +
         "\nPickup date 📅 - " +
-        pickupDateOneWay +
+        pickupDateOneWayone +
         "\nPickup time 🕒 - " +
-        time12hr +
+        time12hrone +
         "\nPlease confirm that you've received the booking and let me know when you're on your way?\n----------------\nWe will reach out to you shortly, Thanks for Booking 🙏";
 
       // Redirect to WhatsApp with the pre-filled message
 
       function validation() {
-        if (name === "") {
+        if (nameone === "") {
           document.getElementById("floatingInputName").style.border =
             "1px solid red";
           return false;
         }
-        if (contact === "") {
+        if (contactone === "") {
           document.getElementById("floatingInputContact").style.border =
             "1px solid red";
           return false;
         }
-        if (pickupOneWay === "") {
+        if (pickupOneWayone === "") {
           document.getElementById("floatingInputPickupOne").style.border =
             "1px solid red";
           return false;
         }
 
-        if (dropOneWay === "") {
+        if (dropOneWayone === "") {
           document.getElementById("floatingInputDropOne").style.border =
             "1px solid red";
           return false;
         }
-        if (pickupDateOneWay === "") {
+        if (pickupDateOneWayone === "") {
           document.getElementById("floatingInputPickupDateOne").style.border =
             "1px solid red";
           return false;
@@ -106,80 +194,81 @@ document
 
     if (showRadioRound.checked) {
       // Get values from form fields
-      var name = document.getElementById("floatingInputRoundName").value;
-      var contact = document.getElementById("floatingInputRoundContact").value;
-      var pickupRoundWay = document.getElementById(
+      var nametwo = document.getElementById("floatingInputRoundName").value;
+      var contacttwo = document.getElementById(
+        "floatingInputRoundContact"
+      ).value;
+      var pickupRoundWaytwo = document.getElementById(
         "floatingInputRoundPickup"
       ).value;
-      var dropRoundWay = document.getElementById(
+      var dropRoundWaytwo = document.getElementById(
         "floatingInputRoundDrop"
       ).value;
-      var pickupDateRoundWay = document.getElementById(
+      var pickupDateRoundWaytwo = document.getElementById(
         "floatingInputRoundPickupDate"
       ).value;
 
-      var pickupTimeRoundWay = document.getElementById(
+      var pickupTimeRoundWaytwo = document.getElementById(
         "floatingInputRoundPickupTime"
       ).value;
 
-      var pickupTimeReturnWay = document.getElementById(
+      var pickupTimeReturnWaytwo = document.getElementById(
         "floatingInputRoundReturnDate"
       ).value;
 
-      var time12hr = convertTo12HrFormat(pickupTimeRoundWay);
-
+      var time12hrtwo = convertTo12HrFormat(pickupTimeRoundWaytwo);
       // Construct the WhatsApp message with the pickup location value
       var oneWayMessage =
         "Hello Venkat 👋,\nI've just 🚖 booked a cab with Shreedrop taxi service.\nName - " +
-        name +
+        nametwo +
         "\nContact Number - " +
-        contact +
+        contacttwo +
         "\nPickup location 📍 - " +
-        pickupRoundWay +
+        pickupRoundWaytwo +
         "\nDrop location 📍 - " +
-        dropRoundWay +
+        dropRoundWaytwo +
         "\nPickup date 📅 - " +
-        pickupDateRoundWay +
+        pickupDateRoundWaytwo +
         "\nPickup time 🕒 - " +
-        time12hr +
+        time12hrtwo +
         "\nReturn date 📅 - " +
-        pickupTimeReturnWay +
+        pickupTimeReturnWaytwo +
         "\nPlease confirm that you've received the booking and let me know when you're on your way?\n-------------------\nWe will reach out to you shortly, Thanks of Booking 🙏";
 
       function validationTwo() {
-        if (name === "") {
+        if (nametwo === "") {
           document.getElementById("floatingInputRoundName").style.border =
             "1px solid red";
           return false;
         }
-        if (contact === "") {
+        if (contacttwo === "") {
           document.getElementById("floatingInputRoundContact").style.border =
             "1px solid red";
           return false;
         }
-        if (pickupRoundWay === "") {
+        if (pickupRoundWaytwo === "") {
           document.getElementById("floatingInputRoundPickup").style.border =
             "1px solid red";
           return false;
         }
 
-        if (dropRoundWay === "") {
+        if (dropRoundWaytwo === "") {
           document.getElementById("floatingInputRoundDrop").style.border =
             "1px solid red";
           return false;
         }
-        if (pickupDateRoundWay === "") {
+        if (pickupDateRoundWaytwo === "") {
           document.getElementById("floatingInputRoundPickupDate").style.border =
             "1px solid red";
         }
 
-        if (pickupTimeRoundWay === "") {
+        if (pickupTimeRoundWaytwo === "") {
           document.getElementById("floatingInputRoundPickupTime").style.border =
             "1px solid red";
           return false;
         }
 
-        if (pickupTimeReturnWay === "") {
+        if (pickupTimeReturnWaytwo === "") {
           document.getElementById("floatingInputRoundReturnDate").style.border =
             "1px solid red";
           return false;
@@ -209,6 +298,8 @@ document
         document.getElementById("floatingInputDropOne").style.border = "none";
         document.getElementById("floatingInputPickupDateOne").style.border =
           "none";
+
+        showConfirmation();
       }
 
       if (showRadioRound.checked) {
@@ -224,10 +315,98 @@ document
           "none";
         document.getElementById("floatingInputRoundReturnDate").style.border =
           "none";
+        showConfirmation();
       }
-      window.location.href = whatsappLink;
+      // window.location.href = whatsappLink;
     }
   });
+
+function showConfirmation() {
+  calculateDistance();
+  document.getElementById("confirmModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("confirmModal").style.display = "none";
+  document.getElementById("successModal").style.display = "none";
+}
+
+function confirmBooking() {
+  let vehicletype = "";
+  var showRadioOne = document.getElementById("inlineRadioOneWay");
+  var showRadioRound = document.getElementById("inlineRadioRound");
+  const vehicletypeVal = document.querySelector(
+    'input[name="cabTypeName"]:checked'
+  ).value;
+  if (vehicletypeVal === "14") vehicletype = "Sedan";
+  else if (vehicletypeVal === "19") vehicletype = "SUV";
+  else if (
+    vehicletypeVal === "20" &&
+    document.querySelector('input[id="cabTypeMaxi"]:checked')
+  )
+    vehicletype = "Maxi Cab";
+  else if (vehicletypeVal === "20") vehicletype = "Innova";
+  else vehicletype = "Sedan";
+
+  if (showRadioOne.checked) {
+    const nameone = document.getElementById("floatingInputName").value;
+    const contactone = document.getElementById("floatingInputContact").value;
+    const pickupOneWayone = document.getElementById(
+      "floatingInputPickupOne"
+    ).value;
+    const dropOneWayone = document.getElementById("floatingInputDropOne").value;
+    const pickupDateOneWayone = document.getElementById(
+      "floatingInputPickupDateOne"
+    ).value;
+
+    const pickupTimeOneWayone = document.getElementById(
+      "floatingInputPickupTimeOne"
+    ).value;
+    sendEmail(
+      nameone,
+      contactone,
+      vehicletype,
+      pickupDateOneWayone,
+      pickupTimeOneWayone,
+      pickupOneWayone,
+      dropOneWayone,
+      ""
+    );
+  }
+
+  if (showRadioRound.checked) {
+    const nametwo = document.getElementById("floatingInputRoundName").value;
+    var contacttwo = document.getElementById("floatingInputRoundContact").value;
+    const pickupRoundWaytwo = document.getElementById(
+      "floatingInputRoundPickup"
+    ).value;
+    const dropRoundWaytwo = document.getElementById(
+      "floatingInputRoundDrop"
+    ).value;
+    const pickupDateRoundWaytwo = document.getElementById(
+      "floatingInputRoundPickupDate"
+    ).value;
+
+    const pickupTimeRoundWaytwo = document.getElementById(
+      "floatingInputRoundPickupTime"
+    ).value;
+
+    const pickupTimeReturnWaytwo = document.getElementById(
+      "floatingInputRoundReturnDate"
+    ).value;
+
+    sendEmail(
+      nametwo,
+      contacttwo,
+      vehicletype,
+      pickupDateRoundWaytwo,
+      pickupTimeRoundWaytwo,
+      pickupRoundWaytwo,
+      dropRoundWaytwo,
+      pickupTimeReturnWaytwo
+    );
+  }
+}
 
 function convertTo12HrFormat(time24hr) {
   var splitTime = time24hr.split(":");
@@ -260,4 +439,69 @@ function toggleElement() {
       elementToHideOne.parentNode.removeChild(elementToHideOne);
     }
   }
+}
+
+function sendEmail(
+  cusname,
+  cuscontact,
+  vehicletype,
+  pickupdate,
+  pickuptime,
+  pickuplocation,
+  droplocation,
+  returndate
+) {
+  const tim = new Date().toLocaleString();
+  const confirmBtn = document.getElementById("confirmBtn");
+  const loader = document.getElementById("loader");
+
+  // Show loader and disable button
+  loader.style.display = "inline-block";
+  confirmBtn.disabled = true;
+  // console.log(vehicletype);
+  // testing purpose****
+  // setTimeout(() => {
+  //   loader.style.display = "none";
+  //   confirmBtn.disabled = false;
+  //   // console.log(convertTo12HrFormat(pickuptime));
+  //   // Show success popup
+  //   document.getElementById("confirmModal").style.display = "none";
+  //   document.getElementById("successModal").style.display = "block";
+  // }, 100);
+  // return;
+
+  emailjs
+    .send("service_7svzxmn", "template_t2xsuot", {
+      // name: "Mathan Doe",
+      // email: email,
+      time: "30-05-2025",
+      cusname: cusname,
+      cuscontact: cuscontact,
+      vehicletype: vehicletype,
+      pickupdate: pickupdate,
+      pickuptime: convertTo12HrFormat(pickuptime),
+      pickuplocation: pickuplocation,
+      droplocation: droplocation,
+      returndate: returndate ? returndate : "",
+      returntime: "",
+    })
+    .then(
+      function (response) {
+        // alert("Email sent successfully!");
+        document.getElementById("formIdDropTaxi").reset();
+
+        loader.style.display = "none";
+        confirmBtn.disabled = false;
+
+        // Show success popup
+        document.getElementById("confirmModal").style.display = "none";
+        document.getElementById("successModal").style.display = "block";
+      },
+      function (error) {
+        console.error("Failed to send email:", error);
+        alert("❌ Failed to send booking. Please try again.\n" + error.text);
+        loader.style.display = "none";
+        confirmBtn.disabled = false;
+      }
+    );
 }

@@ -60,6 +60,7 @@
 
       gtag("config", "AW-16508128936");
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLIOjzxt_QECxD6B0Cl154G5wXXQBW0_g&libraries=places"></script>
   </head>
   <body>
     <!-- Page content -->
@@ -68,6 +69,64 @@
       <!-- <div class="alert alert-light" role="alert">
         A simple light alert—check it out!
       </div> -->
+
+      <!-- Confirmation Popup -->
+      <div id="confirmModal" class="modal">
+        <div class="modal-content">
+          <p>Are you sure you want to confirm this booking?</p>
+          <p id="distanceId"></p>
+          <ul
+            style="
+              text-align: left;
+              list-style-type: disclosure-closed;
+              font-size: 14px;
+              margin-left: 25px;
+            "
+          >
+            <li>
+              Distance <span>(km)</span>:
+              <span
+                id="distanceVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Duration:
+              <span
+                id="durationVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Total Amount:
+              <span
+                id="totalVal"
+                style="color: #119911; font-weight: 600"
+              ></span>
+            </li>
+            <li>
+              Driver Beta <span>(per day)</span>:
+              <span id="driverBeta" style="color: #119911; font-weight: 600"
+                >400</span
+              >
+            </li>
+          </ul>
+          <button onclick="confirmBooking()" class="confirm" id="confirmBtn">
+            Confirm
+            <span id="loader" class="spinner" style="display: none"></span>
+          </button>
+          <button onclick="closeModal()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Success Popup -->
+      <div id="successModal" class="modal">
+        <div class="modal-content">
+          <image src="assets/icons/Successful.gif" alt="successfully"></image>
+          <p>✅ Your booking has been successfully submitted!</p>
+          <button onclick="closeModal()" class="confirm">OK</button>
+        </div>
+      </div>
       <!-- Navigation Bar -->
       <div id="headerContent"></div>
       <header class="navbar-light header-sticky">
@@ -217,6 +276,63 @@
                         >
                       </div>
                     </div>
+                    <div
+                      style="
+                        font-size: 13px;
+                        margin-top: 16px;
+                        font-weight: 500;
+                      "
+                    >
+                      <input
+                        checked
+                        class="form-check-input"
+                        type="radio"
+                        name="cabTypeName"
+                        id="cabTypeSedan"
+                        calss="vehicletype"
+                        value="14"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeSedan"
+                        >Sedan</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        calss="vehicletype"
+                        id="cabTypeSuv"
+                        value="19"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeSuv"
+                        >SUV</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        id="InnovaCabType"
+                        calss="vehicletype"
+                        value="20"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="InnovaCabType"
+                        >Innova</label
+                      >
+                      <input
+                        class="form-check-input cab-types"
+                        type="radio"
+                        name="cabTypeName"
+                        id="cabTypeMaxi"
+                        calss="vehicletype"
+                        value="20"
+                      />
+                      <!-- onchange="toggleElement()" -->
+                      <label class="form-check-label" for="cabTypeMaxi"
+                        >Maxi Cab</label
+                      >
+                    </div>
 
                     <div class="tab-content mt-3" id="cabOneTabContent">
                       <div
@@ -260,12 +376,11 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputPickupOne"
                                 name="floatingInputPickupOne"
                                 placeholder="select location"
                               />
-                              <!-- onkeypress="func_v(this.value)" -->
                               <label for="floatingInputPickupOne"
                                 >Pickup location</label
                               >
@@ -276,7 +391,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputDropOne"
                                 name="floatingInputDropOne"
                                 placeholder="select location"
@@ -359,7 +474,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputRoundPickup"
                                 name="floatingInputRoundPickup"
                                 placeholder="select location"
@@ -374,7 +489,7 @@
                               <input
                                 required
                                 type="text"
-                                class="form-control"
+                                class="form-control location-field"
                                 id="floatingInputRoundDrop"
                                 name="floatingInputRoundDrop"
                                 placeholder="select location"
@@ -865,7 +980,7 @@
               <h2 class="awesome-header">Best Outstation Tariff</h2>
             </div>
           </div>
-          <div class="row g-4">
+          <div class="row g-4" id="oneWayTariff">
             <div class="col-sm-6 col-lg-6">
               <div class="card card-body shadow h-100">
                 <h5 class="text-center mb-3">One way fare</h5>
@@ -1056,7 +1171,7 @@
                       </h6>
                       <ul class="nav flex-column text-primary-hover">
                         <li class="nav-item">04 Passengers</li>
-                        <li class="nav-item">Km Charges: 13/km</li>
+                        <li class="nav-item">Km Charges: 14/km</li>
                         <li class="nav-item">Driver beta 400rs</li>
                         <li class="nav-item">Including toll-if</li>
                       </ul>
@@ -1457,43 +1572,43 @@
             <h5 class="text-white">Top Links</h5>
             <ul class="list-inline text-primary-hover lh-lg">
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >TamilNadu All Cities - Kerala All cities</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Kerala All cities- TamilNadu All Cities</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - kanchipuram</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Bangalore - Kochi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Bangalore - Kochi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Channai - Tiruchirappalli</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Madurai`</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Madurai`</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Virudhunagar</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Tirunelveli</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Kanniyakumari</a
                 >
               </li>
@@ -1503,47 +1618,47 @@
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Nagercoil</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Nagercoil</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Thanjavur</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Thanjavur</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Sivakasi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Sivakasi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Sankarankovil</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Tenkasi</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Tenkasi</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Chennai - Ambasamudram</a
                 >
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai - Kerala</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai - Kerala</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Kochi - Trivandrum</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Kochi - Trivandrum</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Trivandrum - Chennai</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Trivandrum - Chennai</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Trivandrum Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Trivandrum Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Madurai Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Madurai Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary">Chennai Airport</a>
+                <a href="#oneWayTariff" class="text-body-secondary">Chennai Airport</a>
               </li>
               <li class="list-inline-item">
-                <a href="#" class="text-body-secondary"
+                <a href="#oneWayTariff" class="text-body-secondary"
                   >Tiruchirappalli Airport</a
                 >
               </li>
@@ -1658,5 +1773,31 @@
       //   // maxTime: "22:30",
       // });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("uHA-oX4C3xWeDUD6O");
+    </script>
+    <!-- <script>
+      function initAllAutocompletes() {
+        const locationInputs = document.querySelectorAll(".location-field");
+        locationInputs.forEach((input) => {
+          const autocomplete = new google.maps.places.Autocomplete(input);
+
+          // Optional: restrict results
+          // autocomplete.setTypes(['geocode']); // or ['(cities)'] for cities only
+          autocomplete.setComponentRestrictions({ country: ["in"] });
+
+          autocomplete.addListener("place_changed", function () {
+            const place = autocomplete.getPlace();
+            console.log("Selected:", place.formatted_address);
+            // Access lat/lng if needed:
+            // const lat = place.geometry.location.lat();
+            // const lng = place.geometry.location.lng();
+          });
+        });
+      }
+
+      window.addEventListener("load", initAllAutocompletes);
+    </script> -->
   </body>
 </html>
