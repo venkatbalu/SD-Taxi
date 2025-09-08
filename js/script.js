@@ -138,7 +138,9 @@ document
         "floatingInputPickupTimeOne"
       ).value;
 
-      var time12hrone = convertTo12HrFormat(pickupTimeOneWayone);
+      var time12hrone = pickupTimeOneWayone
+        ? convertTo12HrFormat(pickupTimeOneWayone)
+        : "";
       // Get the value of the pickup location input field
       // var pickupLocation = document.getElementById("pickupLocation").value;
 
@@ -188,6 +190,12 @@ document
           return false;
         }
 
+        if (time12hrone === "") {
+          document.getElementById("floatingInputPickupTimeOne").style.border =
+            "1px solid red";
+          return false;
+        }
+
         return true;
       }
     }
@@ -216,7 +224,9 @@ document
         "floatingInputRoundReturnDate"
       ).value;
 
-      var time12hrtwo = convertTo12HrFormat(pickupTimeRoundWaytwo);
+      var time12hrtwo = pickupTimeRoundWaytwo
+        ? convertTo12HrFormat(pickupTimeRoundWaytwo)
+        : "";
       // Construct the WhatsApp message with the pickup location value
       var oneWayMessage =
         "Hello Venkat 👋,\nI've just 🚖 booked a cab with Shreedrop taxi service.\nName - " +
@@ -262,7 +272,7 @@ document
             "1px solid red";
         }
 
-        if (pickupTimeRoundWaytwo === "") {
+        if (time12hrtwo === "") {
           document.getElementById("floatingInputRoundPickupTime").style.border =
             "1px solid red";
           return false;
@@ -292,29 +302,78 @@ document
       (showRadioRound.checked && validationTwo() === true)
     ) {
       if (showRadioOne.checked) {
-        document.getElementById("floatingInputName").style.border = "none";
-        document.getElementById("floatingInputContact").style.border = "none";
-        document.getElementById("floatingInputPickupOne").style.border = "none";
-        document.getElementById("floatingInputDropOne").style.border = "none";
-        document.getElementById("floatingInputPickupDateOne").style.border =
-          "none";
+        const nameone = document.getElementById("floatingInputName");
+        const contactone = document.getElementById("floatingInputContact");
+        const pickupOneWayone = document.getElementById(
+          "floatingInputPickupOne"
+        );
+        const dropOneWayone = document.getElementById("floatingInputDropOne");
+        const pickupDateOneWayone = document.getElementById(
+          "floatingInputPickupDateOne"
+        );
+        const pickupTimeOneWayone = document.getElementById(
+          "floatingInputPickupTimeOne"
+        );
+
+        sendEnquiryEmail(
+          nameone.value,
+          contactone.value,
+          "",
+          pickupDateOneWayone.value,
+          pickupTimeOneWayone.value,
+          pickupOneWayone.value,
+          dropOneWayone.value,
+          ""
+        );
+
+        nameone.style.border = "none";
+        contactone.style.border = "none";
+        pickupOneWayone.style.border = "none";
+        dropOneWayone.style.border = "none";
+        pickupDateOneWayone.style.border = "none";
+        pickupTimeOneWayone.style.border = "none";
 
         showConfirmation();
       }
 
       if (showRadioRound.checked) {
-        document.getElementById("floatingInputRoundName").style.border = "none";
-        document.getElementById("floatingInputRoundContact").style.border =
-          "none";
-        document.getElementById("floatingInputRoundPickup").style.border =
-          "none";
-        document.getElementById("floatingInputRoundDrop").style.border = "none";
-        document.getElementById("floatingInputRoundPickupDate").style.border =
-          "none";
-        document.getElementById("floatingInputRoundPickupTime").style.border =
-          "none";
-        document.getElementById("floatingInputRoundReturnDate").style.border =
-          "none";
+        const nametwo = document.getElementById("floatingInputRoundName");
+        const contacttwo = document.getElementById("floatingInputRoundContact");
+        const pickupRoundWaytwo = document.getElementById(
+          "floatingInputRoundPickup"
+        );
+        const dropRoundWaytwo = document.getElementById(
+          "floatingInputRoundDrop"
+        );
+        const pickupDateRoundWaytwo = document.getElementById(
+          "floatingInputRoundPickupDate"
+        );
+        const pickupTimeRoundWaytwo = document.getElementById(
+          "floatingInputRoundPickupTime"
+        );
+        const pickupTimeReturnWaytwo = document.getElementById(
+          "floatingInputRoundReturnDate"
+        );
+
+        sendEnquiryEmail(
+          nametwo.value,
+          contacttwo.value,
+          "",
+          pickupDateRoundWaytwo.value,
+          pickupTimeRoundWaytwo.value,
+          pickupRoundWaytwo.value,
+          dropRoundWaytwo.value,
+          pickupTimeReturnWaytwo.value
+        );
+
+        nametwo.style.border = "none";
+        contacttwo.style.border = "none";
+        pickupDateRoundWaytwo.style.border = "none";
+        pickupTimeRoundWaytwo.style.border = "none";
+        pickupRoundWaytwo.style.border = "none";
+        dropRoundWaytwo.style.border = "none";
+        pickupTimeReturnWaytwo.style.border = "none";
+
         showConfirmation();
       }
       // window.location.href = whatsappLink;
@@ -439,6 +498,37 @@ function toggleElement() {
       elementToHideOne.parentNode.removeChild(elementToHideOne);
     }
   }
+}
+
+function sendEnquiryEmail(
+  cusname,
+  cuscontact,
+  vehicletype,
+  pickupdate,
+  pickuptime,
+  pickuplocation,
+  droplocation,
+  returndate
+) {
+  emailjs
+    .send("service_7svzxmn", "template_2lhrhnk", {
+      time: "30-05-2025",
+      cusname: cusname,
+      cuscontact: cuscontact,
+      vehicletype: vehicletype,
+      pickupdate: pickupdate,
+      pickuptime: convertTo12HrFormat(pickuptime),
+      pickuplocation: pickuplocation,
+      droplocation: droplocation,
+      returndate: returndate ? returndate : "",
+      returntime: "",
+    })
+    .then(
+      function (response) {},
+      function (error) {
+        console.log("Failed to send email:", error);
+      }
+    );
 }
 
 function sendEmail(
